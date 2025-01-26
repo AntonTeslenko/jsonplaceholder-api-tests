@@ -1,0 +1,184 @@
+{
+	"info": {
+		"_postman_id": "0d20081b-ebea-4f4d-a7f6-d2668a193697",
+		"name": "JSONPlaceholder API Tests",
+		"description": "Collection for testing JSONPlaceholder API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31851608"
+	},
+	"item": [
+		{
+			"name": "All Posts",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);  // Check that the status code is 200\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response contains posts\", function () {\r",
+							"    const jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.be.an('array');  // Check if the response is an array\r",
+							"    pm.expect(jsonData.length).to.be.above(0);  // Check if the array contains at least one item\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/posts",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"posts"
+					]
+				},
+				"description": "Retrieves a list of all posts available on the JSONPlaceholder API. Useful for fetching all blog posts or articles in one request"
+			},
+			"response": []
+		},
+		{
+			"name": "Create New Post",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);  // Check that the status code is 201 (created)\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response contains ID\", function () {\r",
+							"    const jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.have.property('id');  // Check if the response contains an ID\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"title\": \"foo\",\r\n  \"body\": \"bar\",\r\n  \"userId\": 1\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/posts",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"posts"
+					]
+				},
+				"description": "Creates a new post with the specified title, body, and user ID. This demonstrates how to send data to the API for creating new resources"
+			},
+			"response": []
+		},
+		{
+			"name": "Update Post",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);  // Check that the status code is 200\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response contains updated data\", function () {\r",
+							"    const jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.title).to.eql('foo updated');  // Check if the title is updated\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": 1,\r\n  \"title\": \"foo updated\",\r\n  \"body\": \"bar updated\",\r\n  \"userId\": 1\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/posts/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"posts",
+						"1"
+					]
+				},
+				"description": "Updates an existing post by its unique ID. This request demonstrates how to modify existing resources on the server"
+			},
+			"response": []
+		},
+		{
+			"name": "Post by ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);  // Check that the status code is 200\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response is empty\", function () {\r",
+							"    const jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.be.an('object');  // Check if the response is an empty object\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/posts/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"posts",
+						"1"
+					]
+				},
+				"description": "Deletes a specific post by its unique ID. Used for removing a resource from the server"
+			},
+			"response": []
+		}
+	]
+}
